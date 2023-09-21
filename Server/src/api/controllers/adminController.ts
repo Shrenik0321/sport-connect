@@ -45,3 +45,19 @@ export const getAllAdmin = async (req: Request, res: Response) => {
       .json({ message: "Internal server error", error: err });
   }
 };
+
+export const updateAdmin = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const updates = req.body;
+  updates.updatedAt = new Date();
+  try {
+    const updatedAdmin = await admin.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+    res.status(200).json(updatedAdmin);
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err });
+  }
+};
